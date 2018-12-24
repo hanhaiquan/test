@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zjft.monitor.mapper.CarParkInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.zjft.monitor.domain.CarParkInfo">
+        <result column="PLATE_NO" property="plateNo" jdbcType="VARCHAR"/>
+        <result column="LINE_NO" property="lineNo" jdbcType="VARCHAR"/>
+        <result column="STATUS" property="status" jdbcType="VARCHAR"/>
+        <result column="AREA_NO" property="areaNo" jdbcType="VARCHAR"/>
+        <result column="PARK_DATE" property="parkDate" jdbcType="VARCHAR"/>
+        <result column="PARK_TIME" property="parkTime" jdbcType="VARCHAR"/>
+        <result column="DESCRIPTION" property="lineName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+         s.PLATE_NO,s.LINE_NO,s.STATUS,t.AREA_NO,t.PARK_DATE,t.PARK_TIME,l.DESCRIPTION
+    </sql>
+
+
+    <select id="getAllCarParkInfoList" parameterType="string" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM LOGISTICS_CAR_INFO s,AREA_PARKING_INFO t,ADDNOTES_LINE_TABLE l WHERE s.PLATE_NO=t.PLATE_NO AND
+        l.LINE_NO=s.LINE_NO
+        <where>
+            <if test="areaNo != null and areaNo!=''">
+                AND AREA_NO=#{areaNo}
+            </if>
+        </where>
+        ORDER BY t.AREA_NO
+    </select>
+
+    <delete id="delete" parameterType="String">
+       DELETE FROM AREA_PARKING_INFO WHERE PLATE_NO= #{plateNo}
+    </delete>
+
+    <select id="qryCarParkByNo" parameterType="string" resultMap="BaseResultMap">
+        SELECT PLATE_NO,AREA_NO,PARK_DATE,PARK_TIME FROM AREA_PARKING_INFO WHERE PLATE_NO=#{plateNo}
+    </select>
+
+    <update id="update" parameterType="com.zjft.monitor.domain.CarParkInfo">
+        update AREA_PARKING_INFO
+        <set>
+            AREA_NO=#{areaNo},PARK_DATE=#{parkDate},PARK_TIME=#{parkTime}
+        </set>
+        where PLATE_NO = #{plateNo}
+    </update>
+
+    <insert id="insert" parameterType="com.zjft.monitor.domain.CarParkInfo">
+        INSERT INTO AREA_PARKING_INFO (PLATE_NO,AREA_NO,PARK_DATE,PARK_TIME) VALUES(#{plateNo},#{areaNo},#{parkDate},#{parkTime})
+    </insert>
+
+
+</mapper>

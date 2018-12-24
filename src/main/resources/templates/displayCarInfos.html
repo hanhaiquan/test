@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>车辆信息列表</title>
+
+    <div class="col-sm-8">
+        <select data-placeholder="--选择类别--" name="type" id="type"
+                class="form-control chosen-select" tabindex="2">
+            <option value="">-- 选择类别 --</option>
+            <option value="volvo">Volvo</option>
+            <option value="saab">Saab</option>
+            <option value="opel">Opel</option>
+            <option value="audi">Audi</option>
+        </select>
+
+    <table width="50%" border="1" cellspacing="1" cellpadding="0">
+        <tr>
+            <td>车牌号</td>
+            <td>线路号</td>
+            <td>车辆状态</td>
+        </tr>
+        <tr th:each="carInfo : ${retList}">
+            <td th:text="${carInfo.plateNo}"></td>
+            <td th:text="${carInfo.lineNo}"></td>
+            <td th:text="${carInfo.status}"></td>
+        </tr>
+    </table>
+    </div>
+</head>
+<body>
+
+</body>
+</html>

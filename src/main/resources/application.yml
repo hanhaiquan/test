@@ -1,0 +1,29 @@
+server:
+  port: 8088
+
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@127.0.0.1:1521:xlink
+    username: SXTMS
+    password: SXTMS
+  thymeleaf:
+    cache: false
+  mvc:
+    static-path-pattern: /static/**
+  http:
+    encoding:
+      charset: utf-8
+      enabled: true
+      force: true
+
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*.xml
+
+logging:
+  level:
+    com.zjft.monitor.mapper:  debug
+
+
+
+

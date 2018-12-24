@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>车辆停靠信息</title>
+</head>
+<body>
+<table class="table4_11" width="50%" border="1" cellspacing="1" cellpadding="0">
+    <tr>
+        <td>车牌号</td>
+        <td>状态</td>
+        <td>线路编号</td>
+        <td>线路名称</td>
+        <td>区域号</td>
+        <td>进场日期</td>
+        <td>进场时间</td>
+    </tr>
+    <tr th:each="carPark : ${retList}">
+        <td th:text="${carPark.plateNo}"></td>
+        <td id='status' th:text="${carPark.status}" onload="load()"></td>
+        <td th:text="${carPark.lineNo}"></td>
+        <td th:text="${carPark.lineName}"></td>
+        <td id='areaNo' th:text="${carPark.areaNo}"></td>
+        <td th:text="${carPark.parkDate}"></td>
+        <td th:text="${carPark.parkTime}"></td>
+    </tr>
+</table>
+</body>
+<style>
+    .table4_11 table {
+        width: 100%;
+        margin: 15px 0;
+        border: 0;
+    }
+
+    .table4_11 th {
+        background-color: #1E90FF;
+        color: #FFFFFF
+    }
+
+    .table4_11, .table4_11 th, .table4_11 td {
+        font-size: 0.95em;
+        text-align: center;
+        padding: 4px;
+        border-collapse: collapse;
+    }
+
+    .table4_11 th, .table4_11 td {
+        border: 1px solid #7ebffe;
+        border-width: 1px 0 1px 0
+    }
+
+    .table4_11 tr {
+        border: 1px solid #7ebffe;
+    }
+
+    .table4_11 tr:nth-child(odd) {
+        background-color: #b4dafe;
+    }
+
+    .table4_11 tr:nth-child(even) {
+        background-color: #fdfdfd;
+    }
+</style>
+
+<script type="text/javascript" src="https://cdn.goeasy.io/goeasy.js"></script>
+
+
+<script>
+    var goeasy = new GoEasy({
+        appkey: 'BC-5e5483e493404122b1f182d6b89f1708'
+    });
+
+    goeasy.subscribe({
+        channel: 'zjft',
+        onMessage: function (message) {
+            alert(message.content);
+        }
+    });
+</script>
+
+</html>

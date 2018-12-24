@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zjft.monitor.mapper.CarInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.zjft.monitor.domain.CarInfo">
+        <result column="PLATE_NO" property="plateNo" jdbcType="VARCHAR"/>
+        <result column="LINE_NO" property="lineNo" jdbcType="VARCHAR"/>
+        <result column="STATUS" property="status" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        PLATE_NO,LINE_NO,STATUS
+    </sql>
+
+
+    <select id="getCarInfoList" parameterType="string" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM LOGISTICS_CAR_INFO
+        <where>
+            <if test="status != null and status!=''">
+                STATUS=#{status}
+            </if>
+        </where>
+    </select>
+
+    <update id="upateCarStatus" parameterType="java.util.List">
+        <foreach collection="carInfoList" item="carInfo" index="index" open="begin" close=";end;" separator=";">
+            update LOGISTICS_CAR_INFO
+            <set>
+                STATUS=#{status}
+            </set>
+            where PLATE_NO = #{carInfo.plateNo}
+        </foreach>
+    </update>
+
+
+</mapper>
